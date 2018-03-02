@@ -10,13 +10,11 @@ namespace CheeseMVC.Controllers
 {
     public class CheeseController : Controller
     {
-        //added the readonly
         private readonly CheeseDbContext context;
 
         public CheeseController(CheeseDbContext dbContext)
         {
-            //add the this.
-            this.context = dbContext;
+            context = dbContext;
         }
 
         // GET: /<controller>/
@@ -44,7 +42,8 @@ namespace CheeseMVC.Controllers
                 {
                     Name = addCheeseViewModel.Name,
                     Description = addCheeseViewModel.Description,
-                    Type = addCheeseViewModel.Type
+                    Category = newCheeseCategory
+                    //CategoryID = addCheeseViewModel.CategoryID,
                 };
 
                 context.Cheeses.Add(newCheese);
@@ -77,7 +76,7 @@ namespace CheeseMVC.Controllers
             return Redirect("/");
         }
 
-        //from video lesson
+        //in the video
         public IActionResult Category(int id)
         {
             if (id == 0)
@@ -89,7 +88,7 @@ namespace CheeseMVC.Controllers
                 .Include(cat => cat.Cheeses)
                 .Single(cat => cat.ID == id);
 
-            ViewBag.title = "Cheeses in category:" + theCategory.Name;
+            ViewBag.title = "Cheeses in category: " + theCategory.Name;
 
             return View("Index", theCategory.Cheeses);
         }

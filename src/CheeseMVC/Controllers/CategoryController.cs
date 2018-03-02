@@ -2,16 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using CheeseMVC.Data;
 using CheeseMVC.Models;
 using CheeseMVC.ViewModels;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace CheeseMVC.Controllers
 {
     public class CategoryController : Controller
     {
+        public IActionResult Index()
+        {
+            List<CheeseCategory> categories = context.Categories.ToList();
+            return View(categories);
+        }
+
         private readonly CheeseDbContext context;
 
         public CategoryController(CheeseDbContext dbContext)
@@ -19,36 +25,27 @@ namespace CheeseMVC.Controllers
             context = dbContext;
         }
 
-        // GET: Category
-        public ActionResult Index()
-        {
-            List<CheeseCategory> categories = context.Categories.ToList();
-            return View(categories);
-        }
-
-        //Add category
-        public ActionResult Add()
+        public IActionResult Add()
         {
             AddCategoryViewModel addCategoryViewModel = new AddCategoryViewModel();
             return View(addCategoryViewModel);
         }
 
         [HttpPost]
-        public ActionResult Add(AddCategoryViewModel addCategoryViewModel)
+        public IActionResult Add(AddCategoryViewModel addCategoryViewModel)
         {
             if (ModelState.IsValid)
             {
+                // Adds a new Cheese category
                 CheeseCategory newCategory = new CheeseCategory
-                {
-                    Name = addCategoryViewModel.Name
-                };
+
+                { Name = addCategoryViewModel.Name, };
 
                 context.Categories.Add(newCategory);
                 context.SaveChanges();
 
                 return Redirect("/Category");
             }
-
             return View(addCategoryViewModel);
         }
     }
