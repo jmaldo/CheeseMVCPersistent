@@ -10,9 +10,9 @@ namespace CheeseMVC.Controllers
 {
     public class CheeseController : Controller
     {
-        private readonly CheeseDbContext context;
+        private readonly ConcertDbContext context;
 
-        public CheeseController(CheeseDbContext dbContext)
+        public CheeseController(ConcertDbContext dbContext)
         {
             context = dbContext;
         }
