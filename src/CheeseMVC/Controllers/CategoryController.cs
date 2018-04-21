@@ -18,9 +18,9 @@ namespace CheeseMVC.Controllers
             return View(categories);
         }
 
-        private readonly ConcertDbContext context;
+        private readonly CheeseDbContext context;
 
-        public CategoryController(ConcertDbContext dbContext)
+        public CategoryController(CheeseDbContext dbContext)
         {
             context = dbContext;
         }
